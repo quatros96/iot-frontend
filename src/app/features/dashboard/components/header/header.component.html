@@ -1,3 +1,21 @@
 <mat-toolbar color="primary">
+    <mat-icon>other_houses</mat-icon>
     <span>IoT Dashboard</span>
+    <div id="nav-buttons-container">
+        <button
+            mat-button
+            [routerLink]="['/dashboard']"
+            routerLinkActive="button-active"
+            [routerLinkActiveOptions]="{ exact: true }"
+        >
+            Home
+        </button>
+        <button
+            mat-button
+            [routerLink]="['/dashboard/devices']"
+            routerLinkActive="button-active"
+        >
+            Devices
+        </button>
+    </div>
 </mat-toolbar>

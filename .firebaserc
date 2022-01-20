@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "iot-mgr": {
+      "hosting": {
+        "iot-frontend": [
+          "iot-mgr"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "iot-mgr"
+  }
+}

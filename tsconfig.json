@@ -22,7 +22,8 @@
         "paths": {
             "@dashboard/*": ["src/app/features/dashboard/*"],
             "@shared/*": ["src/app/shared/*"]
-        }
+        },
+        "skipLibCheck": true
     },
     "angularCompilerOptions": {
         "enableI18nLegacyMessageIdFormat": false,
