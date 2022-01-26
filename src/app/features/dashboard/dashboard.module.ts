@@ -10,10 +10,11 @@ import { FooterComponent } from './components/footer/footer.component';
 import { SummaryComponent } from './components/summary/summary.component';
 import { BigSensorTileComponent } from './components/big-sensor-tile/big-sensor-tile.component';
 import { LineChartComponent } from './components/big-sensor-tile/line-chart/line-chart.component';
-import { NgChartsModule } from 'ng2-charts'
+import { NgChartsModule } from 'ng2-charts';
+import { RoomSensorsTilesComponent } from './components/room-sensors-tiles/room-sensors-tiles.component'
 
 @NgModule({
-    declarations: [DashboardComponent, HeaderComponent, DevicesComponent, FooterComponent, SummaryComponent, BigSensorTileComponent, LineChartComponent],
+    declarations: [DashboardComponent, HeaderComponent, DevicesComponent, FooterComponent, SummaryComponent, BigSensorTileComponent, LineChartComponent, RoomSensorsTilesComponent],
     imports: [CommonModule, DashboardRoutingModule, SharedModule, NgChartsModule],
 })
 export class DashboardModule {}

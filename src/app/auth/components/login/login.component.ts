@@ -14,7 +14,7 @@ import { LoginService } from '@auth/services/login.service'
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
     public loginFormGroup: FormGroup
 
     constructor(
@@ -28,10 +28,6 @@ export class LoginComponent implements OnInit {
         })
     }
 
-    ngOnInit(): void {
-        console.log('init')
-    }
-
     get email(): AbstractControl | null {
         return this.loginFormGroup.get('email')
     }
@@ -41,17 +37,13 @@ export class LoginComponent implements OnInit {
     }
 
     public login(): void {
-        console.log('login start')
         if (this.email && this.password) {
             this.loginService
                 .login(this.email.value, this.password.value)
                 .then((response) => {
-                    console.log('Logged in')
-                    console.log(response)
                     this.router.navigate(['dashboard'])
                 })
                 .catch((error) => {
-                    console.log('Login error')
                     console.log(error)
                 })
         }
