@@ -1,0 +1,34 @@
+<main>
+    <div id="login-container">
+        <h1>IoT Dashboard</h1>
+        <div id="login-form-container">
+            <form [formGroup]="loginFormGroup">
+                <mat-form-field appearance="outline">
+                    <mat-label>email</mat-label>
+                    <input
+                        autocomplete="off"
+                        matInput
+                        formControlName="email"
+                    />
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>password</mat-label>
+                    <input
+                        autocomplete="off"
+                        matInput
+                        formControlName="password"
+                        type="password"
+                    />
+                </mat-form-field>
+            </form>
+            <button
+                [disabled]="!loginFormGroup.valid"
+                mat-button
+                id="login-button"
+                (click)="login()"
+            >
+                Login
+            </button>
+        </div>
+    </div>
+</main>

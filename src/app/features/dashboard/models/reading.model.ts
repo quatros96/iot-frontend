@@ -1,4 +1,4 @@
-import { DocumentReference } from 'firebase/firestore'
+import { DocumentReference } from '@angular/fire/firestore'
 import { IoTDevice } from './device.model'
 
 export interface SensorReading {
