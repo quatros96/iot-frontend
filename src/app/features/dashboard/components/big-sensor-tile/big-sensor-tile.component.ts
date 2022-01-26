@@ -13,7 +13,7 @@ export class BigSensorTileComponent implements OnInit, OnDestroy {
     private subscriptions: Subscription = new Subscription()
 
     public sensorDataValues: number[] = []
-    public sensorDataLabels: string[] = []
+    public sensorDataLabels: Date[] = []
 
     @Input() device: string = ''
     @Input() sensor: string = ''
@@ -39,7 +39,6 @@ export class BigSensorTileComponent implements OnInit, OnDestroy {
                             )
                         this.sensorDataLabels = data.labels
                         this.sensorDataValues = data.data
-                        console.log(data)
                     },
                 })
         )

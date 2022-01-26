@@ -19,7 +19,6 @@ export class SummaryComponent implements OnInit, OnDestroy {
         this.subscriptions.add(
             this.databaseApiService.getRooms().subscribe({
                 next: (rooms) => {
-                    console.log(rooms)
                     this.rooms = rooms
                 },
             })

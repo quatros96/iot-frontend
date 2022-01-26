@@ -6,6 +6,8 @@
     <iot-line-chart
         [labels]="sensorDataLabels"
         [data]="sensorDataValues"
+        [stepped]="sensor === 'moveSensor'"
+        [label]="sensor"
         mat-card-image
     ></iot-line-chart>
     <!-- <mat-card-actions>

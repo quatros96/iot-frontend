@@ -1,4 +1,4 @@
 export interface ChartLabelsAndData {
-    labels: string[]
+    labels: Date[]
     data: number[]
 }

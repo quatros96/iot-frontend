@@ -32,7 +32,6 @@ export class DatabaseApiService {
         sensor: string
     ): Observable<QuerySnapshot<SensorReading>> {
         const sensorReadingsCollection = collection(this.firestore, 'telemetry')
-        console.log(device, sensor)
         const q = query(
             sensorReadingsCollection,
             where('device', '==', `devices/${device}`),

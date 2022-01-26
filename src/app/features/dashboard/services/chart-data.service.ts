@@ -12,8 +12,8 @@ export class ChartDataService {
         sensorReadings: SensorReading[]
     ): ChartLabelsAndData {
         let values = sensorReadings.map((reading) => reading.reading)
-        let labels = sensorReadings.map((reading) =>
-            new Date(reading.timestamp).toLocaleString('pl-PL')
+        let labels = sensorReadings.map(
+            (reading) => new Date(reading.timestamp)
         )
         return { data: values, labels: labels }
     }

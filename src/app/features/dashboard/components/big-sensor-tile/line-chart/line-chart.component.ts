@@ -9,7 +9,10 @@ import {
 } from '@angular/core'
 import { SensorReading } from '@dashboard/models/reading.model'
 import { ChartConfiguration, ChartOptions, ChartType, Color } from 'chart.js'
+import {} from 'ng2-charts'
 import { BaseChartDirective } from 'ng2-charts'
+import 'chartjs-adapter-date-fns'
+import { pl } from 'date-fns/locale'
 
 @Component({
     selector: 'iot-line-chart',
@@ -18,7 +21,9 @@ import { BaseChartDirective } from 'ng2-charts'
 })
 export class LineChartComponent implements OnInit, OnChanges {
     @Input() data: number[] = []
-    @Input() labels: string[] = []
+    @Input() labels: Date[] = []
+    @Input() label: string = ''
+    @Input() stepped: boolean = false
 
     public lineChartData: ChartConfiguration['data'] = {
         datasets: [
@@ -50,21 +55,33 @@ export class LineChartComponent implements OnInit, OnChanges {
         elements: {
             line: {
                 tension: 0.5,
+                stepped: false,
             },
+        },
+        animation: {
+            duration: 1000,
         },
         scales: {
             x: {
-                // ticks: {
-                //     autoSkip: true,
-                //     maxTicksLimit: 10,
-                // },
                 type: 'time',
+                bounds: 'ticks',
                 time: {
                     unit: 'minute',
+                    displayFormats: {
+                        minute: 'H:m iiii',
+                    },
+                },
+                adapters: {
+                    date: {
+                        locale: pl,
+                    },
                 },
             },
             'y-axis': {
                 position: 'left',
+                ticks: {
+                    precision: 0,
+                },
             },
         },
         plugins: {
@@ -86,11 +103,23 @@ export class LineChartComponent implements OnInit, OnChanges {
     ngOnChanges(changes: SimpleChanges): void {
         if (
             changes.hasOwnProperty('data') ||
-            changes.hasOwnProperty('labels')
+            changes.hasOwnProperty('labels') ||
+            changes.hasOwnProperty('stepped') ||
+            changes.hasOwnProperty('label')
         ) {
             this.lineChartData.datasets[0].data = this.data
+            this.lineChartData.datasets[0].label = this.label
             this.lineChartData.labels = this.labels
             this.refreshChart()
+        }
+        if (changes.hasOwnProperty('stepped')) {
+            if (
+                this.lineChartOptions &&
+                this.lineChartOptions.elements &&
+                this.lineChartOptions.elements.line
+            ) {
+                this.lineChartOptions.elements.line.stepped = this.stepped
+            }
         }
     }
 
