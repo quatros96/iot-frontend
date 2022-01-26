@@ -31,6 +31,8 @@ export class LineChartComponent implements OnInit, OnChanges {
                 data: [5, 7, 9, 15, 20, 18, 16, 12, 15, 12, 14, 15, 15, 15],
                 label: 'Temperature',
                 fill: 'origin',
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
             },
         ],
         labels: [
@@ -64,7 +66,9 @@ export class LineChartComponent implements OnInit, OnChanges {
         scales: {
             x: {
                 type: 'time',
-                bounds: 'ticks',
+                ticks: {
+                    source: 'auto',
+                },
                 time: {
                     unit: 'minute',
                     displayFormats: {

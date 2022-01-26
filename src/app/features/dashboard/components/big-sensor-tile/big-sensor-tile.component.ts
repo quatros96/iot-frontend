@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core'
+import { Component, Input, NgZone, OnDestroy, OnInit } from '@angular/core'
 import { SensorReading } from '@dashboard/models/reading.model'
 import { ChartDataService } from '@dashboard/services/chart-data.service'
 import { DatabaseApiService } from '@dashboard/services/database-api.service'
@@ -20,7 +20,8 @@ export class BigSensorTileComponent implements OnInit, OnDestroy {
 
     constructor(
         private databaseApiService: DatabaseApiService,
-        private chartDataService: ChartDataService
+        private chartDataService: ChartDataService,
+        private ngZone: NgZone
     ) {}
 
     ngOnInit(): void {
@@ -37,9 +38,12 @@ export class BigSensorTileComponent implements OnInit, OnDestroy {
                             this.chartDataService.getChartLabelsAndDataFromSensorReadings(
                                 values
                             )
-                        this.sensorDataLabels = data.labels
-                        this.sensorDataValues = data.data
+                        this.ngZone.run(() => {
+                            this.sensorDataLabels = data.labels
+                            this.sensorDataValues = data.data
+                        })
                     },
+                    complete: () => {},
                 })
         )
     }
