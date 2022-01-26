@@ -1,0 +1,9 @@
+<div class="mat-tab-custom-content">
+    <ng-container *ngFor="let device of devices">
+        <iot-big-sensor-tile
+            *ngFor="let sensor of device.sensors"
+            [device]="device.deviceName"
+            [sensor]="sensor"
+        ></iot-big-sensor-tile>
+    </ng-container>
+</div>

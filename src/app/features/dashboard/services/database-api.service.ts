@@ -13,6 +13,7 @@ import {
 } from '@angular/fire/firestore'
 import { IoTDevice } from '@dashboard/models/device.model'
 import { SensorReading } from '@dashboard/models/reading.model'
+import { Room } from '@dashboard/models/room.model'
 import { from, Observable } from 'rxjs'
 
 @Injectable({
@@ -27,13 +28,14 @@ export class DatabaseApiService {
     }
 
     public getDeviceSensorReadings(
-        device: DocumentReference<IoTDevice>,
+        device: string,
         sensor: string
     ): Observable<QuerySnapshot<SensorReading>> {
         const sensorReadingsCollection = collection(this.firestore, 'telemetry')
+        console.log(device, sensor)
         const q = query(
             sensorReadingsCollection,
-            where('device', '==', device),
+            where('device', '==', `devices/${device}`),
             where('sensor', '==', sensor),
             orderBy('timestamp')
         )
@@ -48,5 +50,10 @@ export class DatabaseApiService {
             `devices/${deviceName}`
         ) as DocumentReference<IoTDevice>
         return deviceRef
+    }
+
+    public getRooms(): Observable<Room[]> {
+        const roomsCollection = collection(this.firestore, 'rooms')
+        return collectionData(roomsCollection) as Observable<Room[]>
     }
 }

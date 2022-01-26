@@ -17,7 +17,8 @@ import { BaseChartDirective } from 'ng2-charts'
     styleUrls: ['./line-chart.component.scss'],
 })
 export class LineChartComponent implements OnInit, OnChanges {
-    @Input() data: SensorReading[] = []
+    @Input() data: number[] = []
+    @Input() labels: string[] = []
 
     public lineChartData: ChartConfiguration['data'] = {
         datasets: [
@@ -53,9 +54,13 @@ export class LineChartComponent implements OnInit, OnChanges {
         },
         scales: {
             x: {
-                ticks: {
-                    autoSkip: true,
-                    maxTicksLimit: 10,
+                // ticks: {
+                //     autoSkip: true,
+                //     maxTicksLimit: 10,
+                // },
+                type: 'time',
+                time: {
+                    unit: 'minute',
                 },
             },
             'y-axis': {
@@ -79,15 +84,12 @@ export class LineChartComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes.hasOwnProperty('data')) {
-            this.lineChartData.datasets[0].data = this.data.map(
-                (sensor) => sensor.reading
-            )
-            this.lineChartData.labels = this.data.map((sensor) =>
-                sensor.timestamp
-                    ? new Date(sensor.timestamp).toISOString()
-                    : new Date()
-            )
+        if (
+            changes.hasOwnProperty('data') ||
+            changes.hasOwnProperty('labels')
+        ) {
+            this.lineChartData.datasets[0].data = this.data
+            this.lineChartData.labels = this.labels
             this.refreshChart()
         }
     }

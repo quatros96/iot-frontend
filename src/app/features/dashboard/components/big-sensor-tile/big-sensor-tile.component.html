@@ -1,11 +1,15 @@
 <mat-card class="big-sensor-tile">
     <mat-card-header>
         <mat-icon mat-card-avatar>thermostat</mat-icon>
-        <mat-card-title>Temperature</mat-card-title>
+        <mat-card-title>{{ sensor }}</mat-card-title>
     </mat-card-header>
-    <iot-line-chart mat-card-image></iot-line-chart>
-    <mat-card-actions>
+    <iot-line-chart
+        [labels]="sensorDataLabels"
+        [data]="sensorDataValues"
+        mat-card-image
+    ></iot-line-chart>
+    <!-- <mat-card-actions>
         <button mat-button>Manage</button>
         <button mat-button>Refresh</button>
-    </mat-card-actions>
+    </mat-card-actions> -->
 </mat-card>

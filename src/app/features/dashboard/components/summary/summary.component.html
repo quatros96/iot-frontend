@@ -1,16 +1,7 @@
 <mat-tab-group mat-align-tabs="center">
-    <mat-tab label="Salon">
+    <mat-tab *ngFor="let room of rooms" [label]="room.roomName">
         <ng-template matTabContent>
-            <div class="mat-tab-custom-content">
-                <iot-big-sensor-tile></iot-big-sensor-tile>
-                <iot-big-sensor-tile></iot-big-sensor-tile>
-                <iot-big-sensor-tile></iot-big-sensor-tile>
-                <iot-big-sensor-tile></iot-big-sensor-tile>
-                <iot-big-sensor-tile></iot-big-sensor-tile>
-                <iot-big-sensor-tile></iot-big-sensor-tile>
-            </div>
+            <iot-room-sensors-tiles></iot-room-sensors-tiles>
         </ng-template>
     </mat-tab>
-    <mat-tab label="Łazienka">Content 2</mat-tab>
-    <mat-tab label="Sypialnia">Content 3</mat-tab>
 </mat-tab-group>

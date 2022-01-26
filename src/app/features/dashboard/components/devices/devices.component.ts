@@ -18,6 +18,8 @@ export class DevicesComponent implements OnInit, OnDestroy {
             state: {
                 sensor: 'temperature',
                 reading: 15,
+                device: '',
+                timestamp: 0,
             },
             room: 'łazienka',
         },
@@ -28,6 +30,8 @@ export class DevicesComponent implements OnInit, OnDestroy {
             state: {
                 sensor: 'temperature',
                 reading: 10,
+                device: '',
+                timestamp: 0,
             },
         },
         {
@@ -37,6 +41,8 @@ export class DevicesComponent implements OnInit, OnDestroy {
             state: {
                 sensor: 'contractron',
                 reading: 1,
+                device: '',
+                timestamp: 0,
             },
             room: 'sypialnia',
         },
@@ -47,6 +53,8 @@ export class DevicesComponent implements OnInit, OnDestroy {
             state: {
                 sensor: 'pollution',
                 reading: 50,
+                device: '',
+                timestamp: 0,
             },
         },
     ]
