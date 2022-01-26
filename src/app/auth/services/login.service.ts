@@ -3,6 +3,7 @@ import {
     Auth,
     signInWithEmailAndPassword,
     UserCredential,
+    signOut,
 } from '@angular/fire/auth'
 
 @Injectable({
@@ -13,5 +14,9 @@ export class LoginService {
 
     public login(email: string, password: string): Promise<UserCredential> {
         return signInWithEmailAndPassword(this.fireAuth, email, password)
+    }
+
+    public logout(): Promise<void> {
+        return signOut(this.fireAuth)
     }
 }
