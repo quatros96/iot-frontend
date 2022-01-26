@@ -1,12 +1,18 @@
-#nav-buttons-container {
-    padding: 0 16px;
+mat-toolbar {
     display: flex;
-    gap: 16px;
-    .button-active {
-        background: white;
-        color: black;
+    #nav-buttons-container {
+        padding: 0 16px;
+        display: flex;
+        gap: 16px;
+        .button-active {
+            background: white;
+            color: black;
+        }
     }
-}
-mat-icon {
-    padding: 8px;
+    mat-icon {
+        padding: 8px;
+    }
+    #logout-button {
+        margin-left: auto;
+    }
 }

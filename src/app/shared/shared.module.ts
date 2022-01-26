@@ -6,6 +6,9 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatTableModule } from '@angular/material/table'
 import { MatTabsModule } from '@angular/material/tabs'
 import { MatCardModule } from '@angular/material/card'
+import { ReactiveFormsModule } from '@angular/forms'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatInputModule } from '@angular/material/input'
 
 @NgModule({
     declarations: [],
@@ -17,6 +20,9 @@ import { MatCardModule } from '@angular/material/card'
         MatTableModule,
         MatTabsModule,
         MatCardModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
     ],
 })
 export class SharedModule {}

@@ -21,7 +21,8 @@
         "lib": ["es2020", "dom"],
         "paths": {
             "@dashboard/*": ["src/app/features/dashboard/*"],
-            "@shared/*": ["src/app/shared/*"]
+            "@shared/*": ["src/app/shared/*"],
+            "@auth/*": ["src/app/auth/*"]
         },
         "skipLibCheck": true
     },
