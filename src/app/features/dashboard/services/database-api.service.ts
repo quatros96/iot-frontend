@@ -10,6 +10,9 @@ import {
     getDocs,
     orderBy,
     QuerySnapshot,
+    onSnapshot,
+    limit,
+    limitToLast,
     updateDoc,
 } from '@angular/fire/firestore'
 import { IoTDevice } from '@dashboard/models/device.model'
@@ -38,9 +41,26 @@ export class DatabaseApiService {
             sensorReadingsCollection,
             where('device', '==', `devices/${device}`),
             where('sensor', '==', sensor),
-            orderBy('timestamp')
+            orderBy('timestamp'),
+            limitToLast(10)
         )
-        return from(getDocs(q)) as Observable<QuerySnapshot<SensorReading>>
+        const queryObservable = new Observable<QuerySnapshot<SensorReading>>(
+            (subscriber) => {
+                let unsub = onSnapshot(q, {
+                    next: (querySnap) => {
+                        subscriber.next(
+                            querySnap as QuerySnapshot<SensorReading>
+                        )
+                    },
+                    error: (error) => {
+                        console.log(error)
+                        subscriber.complete()
+                    },
+                })
+            }
+        )
+
+        return queryObservable
     }
 
     public getDeviceReference(
