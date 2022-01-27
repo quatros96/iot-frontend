@@ -1,0 +1,22 @@
+<mat-card class="small-switch-tile">
+    <mat-card-header>
+        <mat-icon mat-card-avatar>thermostat</mat-icon>
+        <mat-card-title>{{ status.actuator }}</mat-card-title>
+    </mat-card-header>
+    <div class="content">
+        <p>Actual state: {{ status.currentState }}</p>
+        <p>SetPoint: {{ status.setState }}</p>
+        <button
+            (click)="changeState()"
+            mat-button
+            [disabled]="status.currentState !== status.setState"
+        >
+            <div *ngIf="status.currentState !== status.setState">
+                <mat-spinner diameter="24"></mat-spinner>
+            </div>
+            <div *ngIf="status.currentState === status.setState">
+                Switch state
+            </div>
+        </button>
+    </div>
+</mat-card>
