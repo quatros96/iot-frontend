@@ -13,8 +13,10 @@ import {
     onSnapshot,
     limit,
     limitToLast,
+    updateDoc,
 } from '@angular/fire/firestore'
 import { IoTDevice } from '@dashboard/models/device.model'
+import { IoTDeviceStatus } from '@dashboard/models/iot-device-state.model'
 import { SensorReading } from '@dashboard/models/reading.model'
 import { Room } from '@dashboard/models/room.model'
 import { from, Observable } from 'rxjs'
@@ -74,5 +76,19 @@ export class DatabaseApiService {
     public getRooms(): Observable<Room[]> {
         const roomsCollection = collection(this.firestore, 'rooms')
         return collectionData(roomsCollection) as Observable<Room[]>
+    }
+
+    public getStatuses(): Observable<IoTDeviceStatus[]> {
+        const statusCollection = collection(this.firestore, 'status')
+        return collectionData(statusCollection) as Observable<IoTDeviceStatus[]>
+    }
+
+    public updateDeviceStatusSetState(deviceName: string, value: number) {
+        const statusRef = doc(this.firestore, `status/${deviceName}`)
+        updateDoc(statusRef, { setState: value })
+            .then((response) => {})
+            .catch((error) => {
+                console.log(error)
+            })
     }
 }

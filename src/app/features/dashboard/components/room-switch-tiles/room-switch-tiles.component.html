@@ -1,0 +1,8 @@
+<div class="mat-tab-custom-content">
+    <ng-container *ngFor="let device of devices">
+        <iot-switch-tile
+            [device]="device"
+            [statuses]="statuses"
+        ></iot-switch-tile>
+    </ng-container>
+</div>
