@@ -1,9 +1,9 @@
-import { SensorReading } from './reading.model'
+import { IoTDeviceStatus } from './iot-device-state.model'
 
 export interface IoTDevice {
     deviceName: string
     sensors: string[]
     online: boolean
-    state: SensorReading
+    status: IoTDeviceStatus
     room?: string
 }

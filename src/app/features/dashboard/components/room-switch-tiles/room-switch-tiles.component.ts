@@ -1,23 +1,28 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, Input, NgZone, OnDestroy, OnInit } from '@angular/core'
 import { IoTDevice } from '@dashboard/models/device.model'
+import { IoTDeviceStatus } from '@dashboard/models/iot-device-state.model'
 import { Room } from '@dashboard/models/room.model'
 import { DatabaseApiService } from '@dashboard/services/database-api.service'
 import { Subscription } from 'rxjs'
 
 @Component({
-    selector: 'iot-room-sensors-tiles',
-    templateUrl: './room-sensors-tiles.component.html',
-    styleUrls: ['./room-sensors-tiles.component.scss'],
+    selector: 'iot-room-switch-tiles',
+    templateUrl: './room-switch-tiles.component.html',
+    styleUrls: ['./room-switch-tiles.component.scss'],
 })
-export class RoomSensorsTilesComponent implements OnInit {
+export class RoomSwitchTilesComponent implements OnInit, OnDestroy {
     private subscriptions: Subscription = new Subscription()
     public devices: IoTDevice[] = []
+    public statuses: IoTDeviceStatus[] = []
     @Input() room: Room = {
         roomName: '',
         devices: [],
     }
 
-    constructor(private databaseApiService: DatabaseApiService) {}
+    constructor(
+        private databaseApiService: DatabaseApiService,
+        private ngZone: NgZone
+    ) {}
 
     ngOnInit(): void {
         this.subscriptions.add(
@@ -27,6 +32,19 @@ export class RoomSensorsTilesComponent implements OnInit {
                 },
             })
         )
+        this.subscriptions.add(
+            this.databaseApiService.getStatuses().subscribe({
+                next: (statuses) => {
+                    this.ngZone.run(() => {
+                        this.statuses = statuses
+                    })
+                },
+            })
+        )
+    }
+
+    ngOnDestroy(): void {
+        this.subscriptions.unsubscribe()
     }
 
     private filterDevices(devices: IoTDevice[]): IoTDevice[] {
