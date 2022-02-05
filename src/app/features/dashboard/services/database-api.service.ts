@@ -7,11 +7,9 @@ import {
     DocumentReference,
     query,
     where,
-    getDocs,
     orderBy,
     QuerySnapshot,
     onSnapshot,
-    limit,
     limitToLast,
     updateDoc,
 } from '@angular/fire/firestore'
@@ -19,7 +17,7 @@ import { IoTDevice } from '@dashboard/models/device.model'
 import { IoTDeviceStatus } from '@dashboard/models/iot-device-state.model'
 import { SensorReading } from '@dashboard/models/reading.model'
 import { Room } from '@dashboard/models/room.model'
-import { from, Observable } from 'rxjs'
+import { Observable } from 'rxjs'
 
 @Injectable({
     providedIn: 'root',
