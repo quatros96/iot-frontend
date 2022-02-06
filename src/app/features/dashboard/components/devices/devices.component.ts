@@ -79,6 +79,7 @@ export class DevicesComponent implements OnInit, OnDestroy {
     >()
 
     private subscriptions: Subscription = new Subscription()
+    private intervals: number[] = []
 
     constructor(
         private databaseApiService: DatabaseApiService,
@@ -89,12 +90,15 @@ export class DevicesComponent implements OnInit, OnDestroy {
         this.subscriptions.add(
             this.databaseApiService.getDevicesObservable().subscribe({
                 next: (devices) => {
+                    this.clearIntervals()
                     this.devicesDataSource = devices
                     this.devicesDataSource.forEach((device) => {
-                        this.deviceStatusMap.set(
-                            device.deviceName,
-                            this.deviceService.isDeviceOnline(device)
+                        this.addDeviceToStatusMap(device)
+                        const intervalID = window.setInterval(
+                            () => this.addDeviceToStatusMap(device),
+                            this.convertMinutesToMiliseconds(device.frequency)
                         )
+                        this.intervals.push(intervalID)
                     })
                 },
             })
@@ -103,5 +107,24 @@ export class DevicesComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.subscriptions.unsubscribe()
+        this.clearIntervals()
+    }
+
+    private addDeviceToStatusMap(device: IoTDevice): void {
+        this.deviceStatusMap.set(
+            device.deviceName,
+            this.deviceService.isDeviceOnline(device)
+        )
+    }
+
+    private convertMinutesToMiliseconds(minutes: number): number {
+        return minutes * 60 * 1000
+    }
+
+    private clearIntervals(): void {
+        this.intervals.forEach((id) => {
+            window.clearInterval(id)
+        })
+        this.intervals.length = 0
     }
 }

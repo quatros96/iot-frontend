@@ -1,3 +1,20 @@
 table {
     width: 100%;
+    .status {
+        display: flex;
+        align-items: center;
+        &-online {
+            span,
+            mat-icon {
+                color: green;
+            }
+        }
+
+        &-offline {
+            span,
+            mat-icon {
+                color: red;
+            }
+        }
+    }
 }
