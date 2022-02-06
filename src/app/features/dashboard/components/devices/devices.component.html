@@ -21,16 +21,16 @@
         </td>
     </ng-container>
 
-    <!-- Weight Column -->
-    <ng-container matColumnDef="state">
-        <th mat-header-cell *matHeaderCellDef>Last reading</th>
-        <td mat-cell *matCellDef="let element">{{ element.state | json }}</td>
-    </ng-container>
-
     <!-- Symbol Column -->
     <ng-container matColumnDef="online">
         <th mat-header-cell *matHeaderCellDef>State</th>
-        <td mat-cell *matCellDef="let element">{{ element.online }}</td>
+        <td mat-cell *matCellDef="let element">
+            {{
+                (deviceStatusMap.get(element.deviceName) | async)
+                    ? 'Online'
+                    : 'Offline'
+            }}
+        </td>
     </ng-container>
 
     <!-- Room Column -->

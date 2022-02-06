@@ -26,6 +26,7 @@ export class SwitchTileComponent implements OnInit, OnChanges {
             setState: 0,
             deviceName: '',
         },
+        frequency: 0,
     }
 
     @Input() statuses: IoTDeviceStatus[] = []

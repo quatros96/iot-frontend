@@ -5,5 +5,5 @@ export interface IoTDevice {
     sensors: string[]
     online: boolean
     status: IoTDeviceStatus
-    room?: string
+    frequency: number
 }

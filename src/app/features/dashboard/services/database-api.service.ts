@@ -10,7 +10,9 @@ import {
     orderBy,
     QuerySnapshot,
     onSnapshot,
+    getDocs,
     limitToLast,
+    limit,
     updateDoc,
 } from '@angular/fire/firestore'
 import { IoTDevice } from '@dashboard/models/device.model'
@@ -61,16 +63,6 @@ export class DatabaseApiService {
         return queryObservable
     }
 
-    public getDeviceReference(
-        deviceName: string
-    ): DocumentReference<IoTDevice> {
-        const deviceRef = doc(
-            this.firestore,
-            `devices/${deviceName}`
-        ) as DocumentReference<IoTDevice>
-        return deviceRef
-    }
-
     public getRooms(): Observable<Room[]> {
         const roomsCollection = collection(this.firestore, 'rooms')
         return collectionData(roomsCollection) as Observable<Room[]>
@@ -88,5 +80,18 @@ export class DatabaseApiService {
             .catch((error) => {
                 console.log(error)
             })
+    }
+
+    public getDeviceLastTelemetryReading(
+        device: string
+    ): Promise<QuerySnapshot<SensorReading>> {
+        const sensorReadingsCollection = collection(this.firestore, 'telemetry')
+        const q = query(
+            sensorReadingsCollection,
+            where('device', '==', `devices/${device}`),
+            orderBy('timestamp', 'desc'),
+            limit(1)
+        )
+        return getDocs(q) as Promise<QuerySnapshot<SensorReading>>
     }
 }
