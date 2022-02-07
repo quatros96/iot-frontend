@@ -66,12 +66,7 @@ export class DevicesComponent implements OnInit, OnDestroy {
         },
     ]
 
-    public displayedColumns: string[] = [
-        'deviceName',
-        'sensors',
-        'online',
-        'room',
-    ]
+    public displayedColumns: string[] = ['deviceName', 'sensors', 'online']
 
     public deviceStatusMap: Map<string, Promise<boolean>> = new Map<
         string,

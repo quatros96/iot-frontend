@@ -1,0 +1,41 @@
+<div class="container">
+    <mat-card class="room-card" *ngFor="let room of rooms">
+        <mat-card-header>
+            <mat-icon mat-card-avatar>living</mat-icon>
+            <mat-card-title>{{ room.roomName }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="sensors">
+                <p>Sensors:</p>
+                <mat-icon
+                    *ngFor="let sensor of roomsSensors.get(room.roomName)"
+                    >{{ sensor | sensorIcon }}</mat-icon
+                >
+            </div>
+            <div class="devices">
+                <p>Connected devices:</p>
+                <ul>
+                    <li *ngFor="let device of room.devices">
+                        {{ device }}
+                        <button
+                            mat-icon-button
+                            (click)="removeDeviceFromRoom(room, device)"
+                        >
+                            <mat-icon class="remove-icon">close</mat-icon>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button class="remove-room-button" mat-button>Delete room</button>
+            <button
+                (click)="openAddDeviceDialog(room)"
+                mat-button
+                [disabled]="room.devices.length === devices.length"
+            >
+                Add device
+            </button>
+        </mat-card-actions>
+    </mat-card>
+</div>

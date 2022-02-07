@@ -11,6 +11,8 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatTooltipModule } from '@angular/material/tooltip'
+import { MatDialogModule } from '@angular/material/dialog'
+import { MatSelectModule } from '@angular/material/select'
 
 @NgModule({
     declarations: [],
@@ -27,6 +29,8 @@ import { MatTooltipModule } from '@angular/material/tooltip'
         MatInputModule,
         MatProgressSpinnerModule,
         MatTooltipModule,
+        MatDialogModule,
+        MatSelectModule,
     ],
 })
 export class SharedModule {}

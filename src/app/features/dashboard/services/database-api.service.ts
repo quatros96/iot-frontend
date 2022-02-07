@@ -94,4 +94,32 @@ export class DatabaseApiService {
         )
         return getDocs(q) as Promise<QuerySnapshot<SensorReading>>
     }
+
+    public addDeviceToRoom(room: Room, deviceName: string) {
+        const roomsCollection = collection(this.firestore, 'rooms')
+        const q = query(
+            roomsCollection,
+            where('roomName', '==', `${room.roomName}`)
+        )
+        return getDocs(q).then((value) => {
+            return updateDoc(value.docs[0].ref, {
+                devices: [...room.devices, `/devices/${deviceName}`],
+            })
+        })
+    }
+
+    public removeDeviceFromRoom(room: Room, deviceName: string) {
+        const roomsCollection = collection(this.firestore, 'rooms')
+        const q = query(
+            roomsCollection,
+            where('roomName', '==', `${room.roomName}`)
+        )
+        return getDocs(q).then((value) => {
+            return updateDoc(value.docs[0].ref, {
+                devices: [
+                    ...room.devices.filter((device) => device !== deviceName),
+                ],
+            })
+        })
+    }
 }

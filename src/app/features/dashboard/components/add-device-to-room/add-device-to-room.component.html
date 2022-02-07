@@ -1,0 +1,20 @@
+<div class="dialog-container">
+    <h2>Select device</h2>
+    <mat-form-field appearance="outline">
+        <mat-label>Device</mat-label>
+        <mat-select [(value)]="selectedDevice">
+            <mat-option
+                *ngFor="let device of data.devices"
+                [value]="device.deviceName"
+                >{{ device.deviceName }}</mat-option
+            >
+        </mat-select>
+    </mat-form-field>
+    <button
+        [disabled]="selectedDevice.length === 0"
+        mat-button
+        (click)="addSelectedDeviceToRoom()"
+    >
+        Add to room
+    </button>
+</div>

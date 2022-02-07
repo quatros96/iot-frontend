@@ -14,7 +14,9 @@ import { NgChartsModule } from 'ng2-charts'
 import { RoomSensorsTilesComponent } from './components/room-sensors-tiles/room-sensors-tiles.component'
 import { SwitchTileComponent } from './components/switch-tile/switch-tile.component'
 import { RoomSwitchTilesComponent } from './components/room-switch-tiles/room-switch-tiles.component'
-import { SensorIconPipe } from './pipes/sensor-icon.pipe'
+import { SensorIconPipe } from './pipes/sensor-icon.pipe';
+import { RoomsComponent } from './components/rooms/rooms.component';
+import { AddDeviceToRoomComponent } from './components/add-device-to-room/add-device-to-room.component'
 
 @NgModule({
     declarations: [
@@ -29,6 +31,8 @@ import { SensorIconPipe } from './pipes/sensor-icon.pipe'
         SwitchTileComponent,
         RoomSwitchTilesComponent,
         SensorIconPipe,
+        RoomsComponent,
+        AddDeviceToRoomComponent,
     ],
     imports: [
         CommonModule,

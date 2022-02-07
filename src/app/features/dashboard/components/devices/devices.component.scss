@@ -1,5 +1,7 @@
 table {
     width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
     .status {
         display: flex;
         align-items: center;
@@ -13,7 +15,7 @@ table {
         &-offline {
             span,
             mat-icon {
-                color: red;
+                color: tomato;
             }
         }
     }
