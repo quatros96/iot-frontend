@@ -1,0 +1,9 @@
+.dialog-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    button {
+        align-self: center;
+        width: 150px;
+    }
+}

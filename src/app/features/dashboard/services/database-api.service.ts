@@ -7,19 +7,19 @@ import {
     DocumentReference,
     query,
     where,
-    getDocs,
     orderBy,
     QuerySnapshot,
     onSnapshot,
-    limit,
+    getDocs,
     limitToLast,
+    limit,
     updateDoc,
 } from '@angular/fire/firestore'
 import { IoTDevice } from '@dashboard/models/device.model'
 import { IoTDeviceStatus } from '@dashboard/models/iot-device-state.model'
 import { SensorReading } from '@dashboard/models/reading.model'
 import { Room } from '@dashboard/models/room.model'
-import { from, Observable } from 'rxjs'
+import { Observable } from 'rxjs'
 
 @Injectable({
     providedIn: 'root',
@@ -63,16 +63,6 @@ export class DatabaseApiService {
         return queryObservable
     }
 
-    public getDeviceReference(
-        deviceName: string
-    ): DocumentReference<IoTDevice> {
-        const deviceRef = doc(
-            this.firestore,
-            `devices/${deviceName}`
-        ) as DocumentReference<IoTDevice>
-        return deviceRef
-    }
-
     public getRooms(): Observable<Room[]> {
         const roomsCollection = collection(this.firestore, 'rooms')
         return collectionData(roomsCollection) as Observable<Room[]>
@@ -90,5 +80,46 @@ export class DatabaseApiService {
             .catch((error) => {
                 console.log(error)
             })
+    }
+
+    public getDeviceLastTelemetryReading(
+        device: string
+    ): Promise<QuerySnapshot<SensorReading>> {
+        const sensorReadingsCollection = collection(this.firestore, 'telemetry')
+        const q = query(
+            sensorReadingsCollection,
+            where('device', '==', `devices/${device}`),
+            orderBy('timestamp', 'desc'),
+            limit(1)
+        )
+        return getDocs(q) as Promise<QuerySnapshot<SensorReading>>
+    }
+
+    public addDeviceToRoom(room: Room, deviceName: string) {
+        const roomsCollection = collection(this.firestore, 'rooms')
+        const q = query(
+            roomsCollection,
+            where('roomName', '==', `${room.roomName}`)
+        )
+        return getDocs(q).then((value) => {
+            return updateDoc(value.docs[0].ref, {
+                devices: [...room.devices, `/devices/${deviceName}`],
+            })
+        })
+    }
+
+    public removeDeviceFromRoom(room: Room, deviceName: string) {
+        const roomsCollection = collection(this.firestore, 'rooms')
+        const q = query(
+            roomsCollection,
+            where('roomName', '==', `${room.roomName}`)
+        )
+        return getDocs(q).then((value) => {
+            return updateDoc(value.docs[0].ref, {
+                devices: [
+                    ...room.devices.filter((device) => device !== deviceName),
+                ],
+            })
+        })
     }
 }

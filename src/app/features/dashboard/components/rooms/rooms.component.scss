@@ -1,0 +1,15 @@
+.container {
+    display: flex;
+    gap: 32px;
+    .room-card {
+        width: 400px;
+        height: fit-content;
+        .remove-icon {
+            color: tomato;
+        }
+        .remove-room-button {
+            background: tomato;
+            color: white;
+        }
+    }
+}

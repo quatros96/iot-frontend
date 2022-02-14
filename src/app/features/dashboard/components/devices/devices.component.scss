@@ -1,3 +1,22 @@
 table {
     width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    .status {
+        display: flex;
+        align-items: center;
+        &-online {
+            span,
+            mat-icon {
+                color: green;
+            }
+        }
+
+        &-offline {
+            span,
+            mat-icon {
+                color: tomato;
+            }
+        }
+    }
 }

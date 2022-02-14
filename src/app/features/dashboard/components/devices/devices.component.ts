@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core'
 import { IoTDevice } from '@dashboard/models/device.model'
 import { SensorReading } from '@dashboard/models/reading.model'
 import { DatabaseApiService } from '@dashboard/services/database-api.service'
+import { DeviceService } from '@dashboard/services/device.service'
 import { Subscription } from 'rxjs'
 
 @Component({
@@ -22,7 +23,7 @@ export class DevicesComponent implements OnInit, OnDestroy {
                 lastChanged: 0,
                 deviceName: '',
             },
-            room: 'łazienka',
+            frequency: 0,
         },
         {
             deviceName: 'esp2',
@@ -35,6 +36,7 @@ export class DevicesComponent implements OnInit, OnDestroy {
                 lastChanged: 0,
                 deviceName: '',
             },
+            frequency: 0,
         },
         {
             deviceName: 'esp3',
@@ -47,7 +49,7 @@ export class DevicesComponent implements OnInit, OnDestroy {
                 lastChanged: 0,
                 deviceName: '',
             },
-            room: 'sypialnia',
+            frequency: 0,
         },
         {
             deviceName: 'esp4',
@@ -60,52 +62,64 @@ export class DevicesComponent implements OnInit, OnDestroy {
                 lastChanged: 0,
                 deviceName: '',
             },
+            frequency: 0,
         },
     ]
 
-    public displayedColumns: string[] = [
-        'deviceName',
-        'sensors',
-        'state',
-        'online',
-        'room',
-    ]
+    public displayedColumns: string[] = ['deviceName', 'sensors', 'online']
+
+    public deviceStatusMap: Map<string, Promise<boolean>> = new Map<
+        string,
+        Promise<boolean>
+    >()
 
     private subscriptions: Subscription = new Subscription()
+    private intervals: number[] = []
 
-    public dataForChart: SensorReading[] = []
-
-    constructor(private databaseApiService: DatabaseApiService) {}
+    constructor(
+        private databaseApiService: DatabaseApiService,
+        public deviceService: DeviceService
+    ) {}
 
     ngOnInit(): void {
         this.subscriptions.add(
             this.databaseApiService.getDevicesObservable().subscribe({
                 next: (devices) => {
+                    this.clearIntervals()
                     this.devicesDataSource = devices
+                    this.devicesDataSource.forEach((device) => {
+                        this.addDeviceToStatusMap(device)
+                        const intervalID = window.setInterval(
+                            () => this.addDeviceToStatusMap(device),
+                            this.convertMinutesToMiliseconds(device.frequency)
+                        )
+                        this.intervals.push(intervalID)
+                    })
                 },
             })
         )
-
-        // TODO: delete this after moving to another component
-        // const deviceRef =
-        //     this.databaseApiService.getDeviceReference('esp32_test')
-        // this.subscriptions.add(
-        //     this.databaseApiService
-        //         .getDeviceSensorReadings(deviceRef, 'temperature')
-        //         .subscribe({
-        //             next: (querySnap) => {
-        //                 let result: SensorReading[] = []
-        //                 querySnap.forEach((element) => {
-        //                     result.push(element.data())
-        //                 })
-        //                 console.log(result)
-        //                 this.dataForChart = result
-        //             },
-        //         })
-        // )
     }
 
     ngOnDestroy(): void {
         this.subscriptions.unsubscribe()
+        this.clearIntervals()
+    }
+
+    private addDeviceToStatusMap(device: IoTDevice): void {
+        this.deviceStatusMap.set(
+            device.deviceName,
+            this.deviceService.isDeviceOnline(device)
+        )
+    }
+
+    private convertMinutesToMiliseconds(minutes: number): number {
+        return minutes * 60 * 1000
+    }
+
+    private clearIntervals(): void {
+        this.intervals.forEach((id) => {
+            window.clearInterval(id)
+        })
+        this.intervals.length = 0
     }
 }
